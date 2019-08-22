@@ -1,1 +1,0 @@
-# cptkappa.github.io
