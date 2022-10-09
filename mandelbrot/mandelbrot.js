@@ -33,7 +33,7 @@ function calcMandelbrotOptimized(x0, y0, max_iterations) {
 	let y2 = 0.0;
 
 	while (x2 + y2 <= 4 && iteration < max_iterations) {
-		y = (x * y) + (x * y) + y0;
+		y = (x + x) * y + y0;
 		x = x2 - y2 + x0;
 		x2 = x * x;
 		y2 = y * y;
