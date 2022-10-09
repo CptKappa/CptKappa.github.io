@@ -1,4 +1,5 @@
 let slider;
+let timeElem;
 
 const initZoom = 250;
 let centerX = -0.5;
@@ -14,6 +15,7 @@ function setup() {
 	colorMode(HSB, 1);
 	//colorMode(HSB, 360, 1, 1);
 	
+	timeElem = document.getElementById('time');
 
 	slider = createSlider(13, 100, 13, 1);
 	slider.position(20, 800);
@@ -28,6 +30,8 @@ function draw() {
 }
 
 function drawMandelbrot() {
+	const startTime = millis();
+
 	for (let i = 0; i < width; i++) {
 		for (let j = 0; j < height; j++) {
 
@@ -41,6 +45,8 @@ function drawMandelbrot() {
 	}
 
 	updatePixels();
+
+	timeElem.innerText = (millis() - startTime) + 'ms';
 }
 
 function mouseWheel(e) {
