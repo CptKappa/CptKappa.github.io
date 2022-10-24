@@ -89,6 +89,8 @@ function mouseReleased() {
 	centerY = centerY - (dragY / getZoom());
 
 	drawMandelbrot();
+
+	console.log({ screen: [mouseX, mouseY], world: [(mouseX - width / 2) / getZoom() + centerX, (mouseY - height / 2) / getZoom() + centerY] });
 }
 
 function getZoom() {
