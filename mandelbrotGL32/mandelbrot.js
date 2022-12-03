@@ -14,6 +14,7 @@ function getProgramInfo(gl, program) {
 		uniformLocations: {
 			scalingFactor: gl.getUniformLocation(program, 'uScalingFactor'), 
 			translationVector: gl.getUniformLocation(program, 'uTranslationVector'), 
+			aspect: gl.getUniformLocation(program, 'uAspect'), 
 			color: gl.getUniformLocation(program, 'uColor'), 
 		}, 
 	};
