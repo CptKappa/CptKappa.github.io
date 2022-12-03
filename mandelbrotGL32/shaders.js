@@ -6,11 +6,13 @@ function getVertexShader() {
 		uniform vec2 uScalingFactor;
 		uniform vec2 uTranslationVector;
 
+		uniform vec2 uAspect;
+
 		varying vec2 vMandelPosition;
 
 		void main() {
 			gl_Position = vec4(aVertexPosition, 0.0, 1.0);
-			vMandelPosition = aVertexMandelPosition / uScalingFactor + uTranslationVector;
+			vMandelPosition = aVertexMandelPosition * uAspect / uScalingFactor + uTranslationVector;
 		}
 	`;
 }
@@ -44,8 +46,6 @@ function getFragmentShader() {
 		
 		void main() {
 			int iteration = 0;
-
-			int scaling = 6;
 			
 			float x = 0.0;
 			float y = 0.0;
