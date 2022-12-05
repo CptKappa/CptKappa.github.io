@@ -159,6 +159,8 @@ function main() {
 	let touchZoomDistance;
 	let touchEvent = 'none';
 	document.addEventListener('touchstart', function(e) {
+		console.log(e);
+		
 		if (e.touches.length === 1) {
 			// save point
 			touchEvent = 'translating';
