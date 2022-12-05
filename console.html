@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Console</title>
+
+		<script type="application/javascript">
+			function loadConsole() {
+				let listElem = document.getElementById('list');
+				const div = document.getElementById('content');
+
+				if (listElem != null) {
+					div.removeChild(listElem);
+				}
+
+				listElem = document.createElement('ol');
+				listElem.setAttribute('id', 'list');
+				div.appendChild(listElem);
+
+				const listString = window.localStorage.getItem('cptkappa:console');
+
+				if (listString != null) {
+					const list = listString.split('`');
+
+					for (let i = 0; i < list.length; i++) {
+						const li = document.createElement('li');
+						li.innerText = list[i];
+						listElem.appendChild(li);
+					}
+				} else {
+					const li = document.createElement('li');
+					li.innerText = '<none>';
+					listElem.appendChild(li);
+				}
+			}
+
+			function clearList() {
+				window.localStorage.removeItem('cptkappa:console');
+				loadConsole();
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="content">
+
+		</div>
+
+		<button onclick="clearList()">Clear</button>
+		
+		<script type="application/javascript">
+			loadConsole();
+		</script>
+	</body>
+</html>

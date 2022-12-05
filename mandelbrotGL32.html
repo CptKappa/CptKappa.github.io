@@ -4,6 +4,35 @@
 		<title>MandelbrotGL</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<script type="application/javascript">
+			const urlParams = new URLSearchParams(window.location.search);
+
+			if (urlParams.has('console')) {
+				let console = (function (oldConsole) {
+					return {
+						log: function (...data) {
+							oldConsole.log(data);
+							window.localStorage.setItem('cptkappa:console', window.localStorage.getItem('cptkappa:console') + '`<log>' + JSON.stringify(data));
+						},
+						info: function (...data) {
+							oldConsole.info(data);
+							window.localStorage.setItem('cptkappa:console', window.localStorage.getItem('cptkappa:console') + '`<info>' + JSON.stringify(data));
+						},
+						warn: function (...data) {
+							oldConsole.warn(data);
+							window.localStorage.setItem('cptkappa:console', window.localStorage.getItem('cptkappa:console') + '`<warn>' + JSON.stringify(data));
+						},
+						error: function (...data) {
+							oldConsole.error(data);
+							window.localStorage.setItem('cptkappa:console', window.localStorage.getItem('cptkappa:console') + '`<error>' + JSON.stringify(data));
+						}
+					}
+				})(window.console);
+
+				window.console = console;
+			}
+		</script>
 		
 		<link rel="stylesheet" href="style.css">
 		<script type="module" src="mandelbrotGL32/glMatrix/gl-matrix.js"></script>
