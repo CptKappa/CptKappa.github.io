@@ -194,7 +194,7 @@ function main() {
 		}
 
 		if (touchEvent === 'zooming') {
-			let currZoomDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+			let currZoomDist = Math.hypot(e.touches[0].clientX - e.changedTouches[0].clientX, e.touches[0].clientY - e.changedTouches[0].clientY);
 			let delta = currZoomDist - touchZoomDistance;
 
 			console.log(delta);
