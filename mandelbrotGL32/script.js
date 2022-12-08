@@ -199,7 +199,7 @@ function main() {
 
 			console.log(delta);
 
-			let newZoom = zoom + delta/1000;
+			let newZoom = zoom + delta/100;
 
 			setZoom(newZoom);
 		}
@@ -223,7 +223,7 @@ function main() {
 
 	document.addEventListener('wheel', function(e) {
 		let newZoom = zoom + -e.deltaY/1000;
-
+		console.log(e.deltaY);
 		//if (newZoom < 0.0) { newZoom = 0.0 }
 
 		setZoom(newZoom);
