@@ -4,6 +4,9 @@ let zoom = 0.0;
 const scalingFactor = [1.0, 1.0];
 const translationVector = [-0.5, 0.0];
 
+let lastFrameTime = 0;
+let frameTimeNode;
+
 function map(val, currMin, currMax, min, max) {
 	return (val - currMin) / (currMax - currMin) * (max - min) + min;
 }
@@ -106,6 +109,8 @@ function drawScene(gl, programInfo, buffers) {
 }
 
 function drawMandelbrot(gl, programInfo, buffers, mandelBounds) {
+	const startTime = Date.now();
+
 	const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
 
 	console.log("Zoom: " + zoom + "; Scaling: " + scalingFactor);
@@ -113,6 +118,9 @@ function drawMandelbrot(gl, programInfo, buffers, mandelBounds) {
 	console.log("World: [" + (mandelBounds.minX * aspect / scalingFactor[0] + translationVector[0]) + ", " + (mandelBounds.minY / scalingFactor[1] + translationVector[1]) + "], [" + (mandelBounds.maxX * aspect / scalingFactor[0] + translationVector[0]) + ", " + (mandelBounds.maxY / scalingFactor[1] + translationVector[1]) + "]");
 
 	drawScene(gl, programInfo, buffers);
+	
+	lastFrameTime = Date.now() - startTime;
+	frameTimeNode.nodeValue = lastFrameTime + "ms";
 }
 
 function main() {
@@ -127,6 +135,10 @@ function main() {
 		alert("Unable to initialize WebGL. ");
 		return;
 	}
+
+	const frameTimeElem = document.getElementById('frametime');
+	frameTimeNode = document.createTextNode("");
+	frameTimeElem.appendChild(frameTimeNode);
 
 	const shaders = mb.getShaders();
 	const program = initShaders(gl, shaders.getVertexShader(), shaders.getFragmentShader());
