@@ -1,4 +1,4 @@
-import { Mandelbrot } from './mandelbrot.js';
+import { Mandelbrot } from './Mandelbrot.js';
 
 let mandelbrot;
 
