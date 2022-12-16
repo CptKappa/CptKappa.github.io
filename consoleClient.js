@@ -50,6 +50,8 @@ if (urlParams.has('console')) {
 			}
 		}
 	})(window.console);
-	
+
 	window.console = console;
+
+	window.onerror = console.error;
 }
