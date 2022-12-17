@@ -16,7 +16,7 @@ export class Mandelbrot extends GLCanvas {
 	#currBuildRequests;
 	#skippedNewBuild;
 
-	constructor(canvasId, width, height) {
+	constructor(canvasId, width, height, pixelsPerPoint) {
 		super(canvasId, width, height);
 
 		// setting initial values
@@ -27,6 +27,8 @@ export class Mandelbrot extends GLCanvas {
 		this.viewZoom = 0;
 		this.viewScalingFactor = [1.0, 1.0];
 		this.viewTranslationVector = [0.0, 0.0];
+
+		this.pixelsPerPoint = pixelsPerPoint;
 
 
 		this.#updateBounds();
@@ -48,9 +50,6 @@ export class Mandelbrot extends GLCanvas {
 			const { type, data } = e.data;
 
 			if (type == 'render') {
-
-				// TODO: adjust resize
-
 				// adjust zoom
 				this.viewZoom = this.viewZoom - (data.usedZoom - this.zoom);
 				this.viewScalingFactor[0] = this.#getZoom(this.viewZoom);
@@ -76,7 +75,7 @@ export class Mandelbrot extends GLCanvas {
 		});
 
 		// setting initial size
-		this.#buildWorker.postMessage({ type: 'resize', data: { width: this.canvas.width, height: this.canvas.height } });
+		this.#resizeCalcBuffer();
 	}
 
 	render() {
@@ -88,7 +87,7 @@ export class Mandelbrot extends GLCanvas {
 
 		super.resize(width, height);
 
-		this.#buildWorker.postMessage({ type: 'resize', data: { width: this.canvas.width, height: this.canvas.height } });
+		this.#resizeCalcBuffer();
 
 		this.#updateBounds();
 
@@ -164,7 +163,8 @@ export class Mandelbrot extends GLCanvas {
 						zoom: newZoom, 
 						center: [newCenterX, newCenterY], 
 						maxIterations: this.maxIterations, 
-						viewTranslationVector: [this.viewTranslationVector[0], this.viewTranslationVector[1]]
+						viewTranslationVector: [this.viewTranslationVector[0], this.viewTranslationVector[1]], 
+						pixelsPerPoint: this.pixelsPerPoint
 					}
 				}
 			);
@@ -249,6 +249,11 @@ export class Mandelbrot extends GLCanvas {
 				(posY - this.canvas.clientHeight / 2) / this.#getZoom() + this.center[1]
 			]
 		});
+	}
+
+	#resizeCalcBuffer() {
+		this.#buildWorker.postMessage({ type: 'resize', data: { width: Math.floor(this.canvas.width / this.pixelsPerPoint), height: Math.floor(this.canvas.height / this.pixelsPerPoint) } });
+		//this.#buildWorker.postMessage({ type: 'resize', data: { width: this.canvas.width, height: this.canvas.height } });
 	}
 
 	#updateBounds() {

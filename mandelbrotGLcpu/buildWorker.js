@@ -18,7 +18,9 @@ self.addEventListener('message', (e) => {
 	} else if (type == 'build') {
 		const startTime = Date.now();
 
-		buildMandelbrot(buffer, width, height, getZoom(data.zoom), data.center, data.maxIterations);
+		buildMandelbrot(buffer, width, height, getZoom(data.zoom) / data.pixelsPerPoint, data.center, data.maxIterations);
+
+		const arr = new Uint8Array(buffer.flat());
 
 		buildTime = Date.now() - startTime;
 
@@ -26,7 +28,7 @@ self.addEventListener('message', (e) => {
 			{
 				type: 'render', 
 				data: { 
-					buffer: new Uint8Array(buffer.flat()), 
+					buffer: arr, 
 					buildTime: buildTime, 
 					usedWidth: width, 
 					usedHeight: height, 
