@@ -3,7 +3,14 @@ import { Mandelbrot } from './Mandelbrot.js';
 let mandelbrot;
 
 function main() {
-	mandelbrot = new Mandelbrot("#glCanvas", document.body.clientWidth, document.body.clientHeight);
+	const urlParams = new URLSearchParams(window.location.search);
+
+	let pixelsPerPoint = 1;
+	if (urlParams.has('pixelsperpoint')) {
+		pixelsPerPoint = urlParams.get('pixelsperpoint');
+	}
+
+	mandelbrot = new Mandelbrot("#glCanvas", document.body.clientWidth, document.body.clientHeight, pixelsPerPoint);
 
 
 
