@@ -1,7 +1,6 @@
 let slider;
-let timeElem;
 
-const initZoom = 250;
+let zoom = 14;
 let centerX = -0.5;
 let centerY = 0;
 const maxIterations = 100;
@@ -10,17 +9,22 @@ let mouseLocationX = 0;
 let mouseLocationY = 0;
 
 function setup() {
-	createCanvas(1024, 768);
+	//createCanvas(1024, 768);
+	createCanvas(document.body.clientWidth, document.body.clientHeight);
+	
 	background(0);
 	colorMode(HSB, 1);
 	//colorMode(HSB, 360, 1, 1);
-	
-	timeElem = document.getElementById('time');
 
+	textSize(16);
+	strokeWeight(0);
+
+	/*
 	slider = createSlider(13, 100, 13, 1);
 	slider.position(20, 800);
 	slider.style('width', '640px');
 	slider.touchEnded(drawMandelbrot);
+	*/
 
 	drawMandelbrot();
 }
@@ -30,6 +34,10 @@ function draw() {
 }
 
 function drawMandelbrot() {
+	background(0);
+
+	colorMode(HSB, 1);
+	
 	const startTime = millis();
 
 	for (let i = 0; i < width; i++) {
@@ -46,7 +54,13 @@ function drawMandelbrot() {
 
 	updatePixels();
 
-	timeElem.innerText = (millis() - startTime) + 'ms';
+	colorMode(RGB, 255);
+	
+	fill(0, 0, 0, 127);
+	rect(5, 5, 100, 33);
+
+	fill(255, 255, 255, 255);
+	text((millis() - startTime) + 'ms', 15, 27);
 }
 
 function mouseWheel(e) {
@@ -55,7 +69,8 @@ function mouseWheel(e) {
 	const amount = e.delta;
 
 	const zoomOld = getZoom();
-	slider.value(slider.value() + -amount/100);
+	//slider.value(slider.value() + -amount/100);
+	zoom = zoom + -amount/100;
 	const zoomNew = getZoom();
 
 	const zoomDivInv = zoomOld - zoomNew;
@@ -94,5 +109,11 @@ function mouseReleased() {
 }
 
 function getZoom() {
-	return Math.pow(1.5, slider.value());
+	let z = zoom;
+
+	if (slider !== undefined) {
+		z = slider.value();
+	}
+
+	return Math.pow(1.5, z);
 }
